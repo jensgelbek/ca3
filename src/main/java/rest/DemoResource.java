@@ -8,6 +8,8 @@ import dtos.Example.CatDTO;
 import dtos.Example.ChuckDTO;
 import dtos.Example.CombinedDTO;
 import dtos.Example.JokeDTO;
+import dtos.Example.QuestionDTO;
+import dtos.Example.StarWarsDTO;
 import dtos.Example.WeatherDTO;
 import dtos.RenameMeDTO;
 import entities.User;
@@ -94,6 +96,21 @@ public class DemoResource {
         } catch (Exception e) {
         }
         return gson.toJson(dto);
+
+    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("starwars")
+    public String getStarWarsData() {
+        StarWarsDTO dto = null;
+        try {
+            String JsonResponse = HttpUtil.fetchData("https://swapi.dev/api/people/1/");
+            dto = gson.fromJson(JsonResponse, StarWarsDTO.class);
+        } catch (Exception e) {
+        }
+        QuestionDTO questionDTO = new QuestionDTO(("what is the height of "+dto.getName()), "170", dto.getHeight(), "180", dto.getHeight());
+        
+        return gson.toJson(questionDTO);
 
     }
 
