@@ -16,6 +16,7 @@ import entities.User;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -103,12 +104,30 @@ public class DemoResource {
     @Path("starwars")
     public String getStarWarsData() {
         StarWarsDTO dto = null;
+        Random rand =new Random();
+        int number=rand.nextInt(82);
         try {
-            String JsonResponse = HttpUtil.fetchData("https://swapi.dev/api/people/1/");
+            String JsonResponse = HttpUtil.fetchData("https://swapi.dev/api/people/"+number+"/");
             dto = gson.fromJson(JsonResponse, StarWarsDTO.class);
         } catch (Exception e) {
         }
-        QuestionDTO questionDTO = new QuestionDTO(("what is the height of "+dto.getName()), "170", dto.getHeight(), "180", dto.getHeight());
+        int answer=Integer.parseInt(dto.getHeight());
+        int answer1=answer+rand.nextInt(20)-10;
+        int answer2=answer+rand.nextInt(20)-10;
+        int answer3=answer+rand.nextInt(16)-8;
+        int n=rand.nextInt(2);
+        switch(n) {
+  case 0:
+    answer1=Integer.parseInt(dto.getHeight());
+    break;
+  case 1:
+    answer2=Integer.parseInt(dto.getHeight());
+    break;
+  default:
+    answer3=Integer.parseInt(dto.getHeight());
+}
+        
+        QuestionDTO questionDTO = new QuestionDTO(("what is the height of "+dto.getName()), ""+answer1,""+answer2, ""+answer3, dto.getHeight());
         
         return gson.toJson(questionDTO);
 
