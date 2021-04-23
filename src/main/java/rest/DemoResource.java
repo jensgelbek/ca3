@@ -102,6 +102,7 @@ public class DemoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("starwars")
+    @RolesAllowed({"user","admin"})
     public String getStarWarsData() {
         StarWarsDTO dto = null;
         Random rand =new Random();
